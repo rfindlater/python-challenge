@@ -1,41 +1,63 @@
+# In this challenge, you are tasked with creating a Python script for analyzing the financial records of your company. You will give a set of financial data called [budget_data.csv](PyBank/Resources/budget_data.csv). The dataset is composed of two columns: `Date` and `Profit/Losses`. (Thankfully, your company has rather lax standards for accounting so the records are simple.)
+# Your task is to create a Python script that analyzes the records to calculate each of the following:
+
 import os
 import csv
+import statistics
 
-bd_csv = os.path.join("..", "Resources", "budget_data.csv")
+bd_csv = os.path.join('../Resources', 'budget_data.csv')
 
 #holders for data
 months=[]
 profitsLoss=[]
 
+# Define function and have it accept 'budget_data'
 
-# Open and read csv
+#variables
+count = 0
+totalProfitLosses = 0
+total_months = 0
+greatest_increase = ["",0]
+greatest_decrease = ["",9999999999]
+
+
+#Open and read csv
 with open(bd_csv) as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=",")
+    csvreader = csv.reader(csvfile, delimiter = ",")
+    print(csvreader)
     
-    # Read through each row of data after the header
+    csv_header = next(csvreader)
+    
+    first_row = next(csvreader)
+    total_months = total_months + 1
+    total_net = int(first_row[1])
+    previous_net = total_net
+
     for row in csvreader:
-        months.append(str(row[0]))
-        profitsLoss.append(str(row[1]))
-        #print(profitsLoss)
-
-#months in column
-totalMonths=len(months)
-print(f"Total Months:{int(totalMonths)}")
-##proflost=sum(profitsLoss)
-##print(f"money:{int(proflost)}")
+        total_months += 1
+        total_net += int(row[1])
+        net_change = int(row[1]) - previous_net
+        previous_net = int(row[1]) 
 
 
-#net Profit/Losses in column
-#netProfLoss=0
+        profitsLoss.append(total_net) 
 
-#for x in profitsLoss=netProfLoss + x
+        if net_change > greatest_increase[1]: 
+            greatest_increase[0] = row[0]
+            greatest_increase[1] = net_change
 
-#average Profit/Losses
-#averageChange=[]
-#previousMonth=0
+        if net_change < greatest_decrease[1]:
+            greatest_decrease[0] = row[0]
+            greatest_decrease[1] = net_change
 
-#for x in range(len(profitsLoss)):
-    #if x ==0:
-        #previousMonth=profitsLoss[x]
-    #else
-        
+net_monthly_avg = sum(profitsLoss) / len(profitsLoss)
+
+#   In addition, your final script should both print the analysis to the terminal and export a text file with the results.
+# print("```text")
+print("Financial Analysis")
+print("----------------------------------------------------------")
+print(f"Total Months: {total_months}") 
+print(f"Total Profits: ${total_net}")
+print(f"Average  Change: ${net_monthly_avg}")
+print(f"Greatest Increase in Profits: {greatest_increase[0]} (${greatest_increase[1]})")
+print(f"Greatest Decrease in Profits: {greatest_decrease[0]} (${greatest_decrease[1]})")
