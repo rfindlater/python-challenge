@@ -32,13 +32,14 @@ with open(bd_csv) as csvfile:
     total_months = total_months + 1
     total_net = int(first_row[1])
     previous_net = total_net
-
+# loop through data to count total months and calculate net change for profits loss
     for row in csvreader:
         total_months += 1
         total_net += int(row[1])
         net_change = int(row[1]) - previous_net
         previous_net = int(row[1]) 
 
+# append profits loss 
 
         profitsLoss.append(total_net) 
 

@@ -48,8 +48,10 @@ correy_percentage = (correy_votes/total_votes) * 100
 li_percentage = (li_votes/total_votes) * 100
 otooley_percentage = (otooley_votes/total_votes) * 100
 
+# set variables for determining winner
 vote_max = khan_votes
 winner = "Khan"
+# if statements to determine winner
 if correy_votes > vote_max:
     vote_max = correy_votes
     winner = "Correy"
